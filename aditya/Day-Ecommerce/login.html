@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+    <h1>Login page</h1>
+    <form action="">
+        <input id="email" type="text" placeholder="Enter email">
+        <input id="pass" type="text" placeholder="Enter Password">
+        <input type="submit">
+    </form>
+
+</body>
+
+</html>
+<script>
+    let regdUsers = JSON.parse(localStorage.getItem("userData"))
+    document.querySelector("form").addEventListener("submit", (event) => {
+        event.preventDefault()
+        let enteredEmail = document.querySelector("#email").value;
+        let enteredPass = document.querySelector("#pass").value;
+        // console.log(email,pass)
+        let x =1;
+
+        for (let i = 0; i < regdUsers.length; i++) {
+            // console.log(regdUsers[i]);
+            if (
+                regdUsers[i].email === enteredEmail &&
+                regdUsers[i].password === enteredPass
+            ) {
+                x=0
+            //     alert("Login Successful")
+            // window.location.href= "/men.html"
+                
+            //     break;
+            }
+            // else{
+            //     alert("Login Failed");
+            // }
+        }
+        if(x===0){
+            alert("Login Successful")
+            window.location.href= "/men.html"
+        }
+            else{
+                alert("Login Failed");
+            }
+
+    });
+</script>

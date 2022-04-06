@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart page</title>
+    <style>
+        #cartContainer{
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 20px;
+
+        }
+        .kat{
+            height:40px;
+            width: auto;
+            /* gap:10px; */
+            font-size:large;
+            border-radius: 12px;
+            background-color: blanchedalmond;
+        }
+
+        #rraju{
+            height:400px;
+            width:390px;
+        }
+       
+    </style>
+</head>
+<body>
+    <h1>Cart Data</h1>
+    <h2 id="quantity"></h2>
+    <h2 id="para"></h2>
+    <div id="cartContainer"></div>
+    
+</body>
+</html>
+
+<script>
+    let cartData = JSON.parse(localStorage.getItem("keys")) || [];
+    console.log(cartData);
+
+    let total = cartData.reduce((sum, elem , i, arr)=>{
+        return sum+elem.Price;
+
+    },0)
+    console.log("$" ,total);
+    let pic = document.getElementById("para");
+    pic.innerText = `your total amount is ${total}`;
+    pic.style.border = "2px solid red";
+    pic.style.width ="330px";
+    pic.style.backgroundColor= "aqua";
+    pic.style.textAlign= "center";
+
+    let quant = cartData.length;
+    document.getElementById("quantity");
+    quantity.innerText = `Total quantity of Product is ${quant}`;
+    quantity.style.border = "2px solid purple";
+    quantity.style.width ="330px";
+    quantity.style.backgroundColor= "tomato";
+    quantity.style.textAlign= "center";
+ 
+
+    cartData.map((el,i)=>{
+      let div1 = document.createElement("div");
+
+      let img = document.createElement("img");
+      img.setAttribute("id", "rraju")
+      img.src = el.image;
+
+      let title = document.createElement("p");
+      title.innerText = el.title;
+
+      let price = document.createElement("h3");
+      price.innerText ="$"+" "+el.Price;
+
+      let btn1 = document.createElement("button");
+    btn1.setAttribute("class", "kat")
+    btn1.innerText= "Remove from Cart";
+    btn1.addEventListener("click",()=>{
+
+        removeCart(el,i);
+    })
+
+      div1.append(img, title, price,btn1);
+      document.querySelector("#cartContainer").append(div1);
+
+    })
+
+    
+removeCart = (el,i)=>{
+    console.log(el,i)
+
+
+
+
+}
+</script>
