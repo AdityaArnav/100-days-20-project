@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fetch</title>
+    <style>
+        body{
+            background-color: antiquewhite;
+        }
+        #heading {
+            /* border:2px solid black; */
+            height: 50px;
+            width: 50%;
+            margin: auto;
+            text-align: center;
+            border-radius: 20px;
+            background-image: linear-gradient(120deg, #888632 0%, #e76565 100%);
+            line-height: 40px;
+            box-shadow: rgba(106, 139, 65, 0.25) 0px 10px 70px 10px inset, rgba(51, 212, 164, 0.3) 0px 18px 36px -18px inset;
+            margin-bottom: 100px;
+        }
+
+        #srchd {
+            color: rgb(86, 52, 207);
+            margin-top: 30px;
+        }
+
+        #main {
+            border: 1px solid rgb(212, 62, 180);
+            width: 550px;
+            margin: auto;
+            padding: 15px;
+            border-radius: 28px;
+            background-image: linear-gradient(180deg, #cbd44e 0%, #00fd94 100%);
+        }
+
+
+        #srchbx {
+            height: 45px;
+            width: 300px;
+            margin-right: 20px;
+            border-radius: 15px;
+            padding-left: 12px;
+        }
+
+        img {
+            height: 300px;
+            width: 275px;
+            margin: auto;
+            margin-top: 50px;
+        }
+
+        #btn {
+            height: 35px;
+            width: 130px;
+            color: rgb(10, 247, 235);
+            background-color: rgb(113, 20, 220);
+            border-radius: 15px;
+            font-size: 22px;
+        }
+
+        #btn:hover {
+            color: rgb(10, 13, 15);
+            background-color: rgb(255, 251, 0);
+            font-weight: 500;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="heading">
+        <h1 id="srchd">Search Your Favourite Movies</h1>
+        <input type="search" placeholder="Search here" id="srchbx">
+        <input type="submit" value="Submit" id="btn" onclick="getData()">
+    </div>
+    <div id="container"></div>
+</body>
+
+</html>
+
+<script>
+
+    var container = document.querySelector("#container");
+
+    async function getData() {
+        try {
+            let searchbox = document.getElementById("srchbx").value;
+            let res = await fetch(`https://www.omdbapi.com/?t=${searchbox}&apikey=76a47d2e`);
+
+            let data = await res.json();
+
+            if (data.Response == "True") {
+                appendProducts(data)
+                console.log("data:", data);
+            }
+
+            else {
+                // alert("error")
+                container.innerHTML = null;
+
+                let img = document.createElement("img");
+                img.src = "error.gif";
+                //  alert("error")
+                container.style.height = "200px"
+                container.style.marginTop = "70px"
+                img.style.marginLeft = "300px"
+                container.style.display = "block"
+                container.append(img);
+            }
+        }
+        catch (err) {
+            console.log("err:", err)
+        }
+    }
+
+    function appendProducts(data) {
+        container.innerHTML = null;
+
+        var div = document.createElement("div");
+        div.setAttribute("id", "main");
+        div.style.display = "block";
+        let img = document.createElement("img");
+        img.src = data.Poster;
+        img.style.display = "block"
+
+
+        let title = document.createElement("h2")
+        title.innerText = `Title: ${data.Title}`;
+        let type = document.createElement("h3")
+        type.innerText = `Type: ${data.Type}`;
+
+
+        let year = document.createElement("h4")
+        year.innerText = `Year: ${data.Year}`;
+        let imbd = document.createElement("h4")
+        imbd.innerText = `imbdRating: ${data.imdbRating}`;
+
+
+        div.append(img, title, type, year, imbd);
+        container.append(div)
+        container.style.display = "block";
+    }
+</script>
