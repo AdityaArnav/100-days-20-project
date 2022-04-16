@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <style>
+         #navbar{
+        display: flex;
+        height: 60px;
+        border-bottom: 1px solid rgb(199, 194, 194);
+      }
+      #search{
+        margin-left: 7%;
+        width: 39%;
+        height: 22px;
+        font-size: 17px;
+        margin-top: 9px;
+        border: 1px solid rgb(141, 137, 137);
+        padding: 8px;
+      }
+      #btn1{
+        height: 40px;
+        width: 60px;
+        margin-top: 9px;
+      }
+      #mirospeker{
+        border: 1px solid #ddddee;
+        border-radius: 50%;
+        align-items: center;
+        margin-left: 5px;
+        height: 37px;
+        margin-top: 9px;
+        width: 33px;
+        background-color: rgb(227, 227, 236);
+      }
+
+      #rightnav{
+        display: flex;
+        height: 30px;
+        justify-content: space-around;
+        width: 240px;
+
+      }
+      #log1{
+        margin-top: 21px;
+      }
+      #leftnavbardiv{
+        display: flex;
+      
+        height: 36px;
+        margin-top: 13px;
+        margin-left: 120px;
+        width: 240px;
+        justify-content: space-around;
+        font-size: 20px;
+      }
+      #leftnavbardiv>div:last-child{
+        border-radius: 50%;
+        height: 32px;
+        width: 30px;
+        background-color: teal;
+        text-align: center;
+        color: beige;
+      }
+      #leftDiv{
+        height: 400px;
+        width:80px;
+        text-align: center;
+      
+        padding-left: 5px;
+        font-size: 13px;
+        
+      
+      }
+      #leftDiv>div{
+        padding-top: 20px;
+        line-height: 5px;
+      }
+      #divforappend{
+        display: flex;
+      }
+      #Search_result{
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(4,1fr);
+        background-color: rgb(248, 248, 252);
+      }
+      #Search_result>div{
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        height: 250px;
+        /* width: 97%; */
+        padding: 6px;
+        
+      }
+      #Search_result>div>img:hover{
+      
+        height: 230px;
+      }
+
+      #Search_result>div>img{
+        width: 98%;
+        padding: 5px;
+        border-radius: 4px;
+        margin: auto;
+      }
+
+
+
+
+        #div2{
+            height: 490px;
+            width: 750px;
+            background-color: rgb(237, 237, 241);
+            padding: 15px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+  <div id="navbar">
+    <div id="rightnav">
+        <div><span   style="height: 30px;margin-top: 19px;"  class="material-icons">
+          reorder</span>
+     </div>
+        <div> <img style="height: 50px; width: 80px;margin-top: 7px;"  src="https://www.bing.com/th?id=OIP.hR6TQma4SWfP-yfQmT5oqgHaHa&w=176&h=170&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2" alt=""></div>
+        <div><h2>Youtube</h2></div>
+    </div>
+
+
+    <input  onclick="window.location.href='index.html'"  type="text" id="search" placeholder="Search">
+    <button id="btn1"  ><span class="material-icons">search</span></button>
+    <div id="mirospeker">
+      <span  style="margin-top:7px;margin-left: 4px;"  class="material-icons">settings_voice</span>
+    </div>
+
+    <div id="leftnavbardiv">
+      <div><span class="material-icons">voice_chat</span></div>
+      <div><span class="material-icons">notification_add</span></div>
+      <div><span class="material-icons">
+        view_comfy</span></div>
+      <div>D</div>
+    </div>
+
+</div>
+  
+    <div id="divforappend">
+
+      <div id="leftDiv">
+     
+         <div id="homediv"><span  class="material-icons">home</span><br>Home</div>
+
+         <div><span class="material-icons"> explore</span><br>Explore</div>
+
+         <div><span class="material-icons">
+           video_camera_front
+           </span><br>Shorts</div>
+
+         <div><span class="material-icons">
+           subscriptions
+           </span><br>Subscriptio</div>
+
+         <div><span class="material-icons">cases</span><br>Library </div>
+
+      </div>
+  
+         <div id="show"></div>
+  
+   </div>
+    <!-- <div id="show"></div> -->
+</body>
+</html>
+<script>
+
+document.querySelector("#homediv").addEventListener("click",()=>{
+       location.href="home.html";
+    })
+
+let thumbnailArr=JSON.parse(localStorage.getItem("cartv"));
+
+// display(thumbnailArr);
+
+thumbnailArr.map((el)=>{
+      
+         document.querySelector("#show").innerHTML="";
+        let div2=document.createElement("div");
+        div2.setAttribute("id","div2")
+
+        div2.styleheight="470px";
+        div2.style.width="750px";
+        div2.style.backgroundColor="light blue"
+
+
+        let title=document.createElement("p");
+        title.innerText=el.snippet.title;
+
+        let iframe=document.createElement("iframe");
+        iframe.allow="fullscreen";
+        iframe.height="450px";
+        iframe.width="740px"
+
+        iframe.src= `https://www.youtube.com/embed/${el.id.videoId}`;
+
+        div2.append(iframe,title);
+
+        document.querySelector("#show").append(div2);
+    })
+
+
+
+</script>
