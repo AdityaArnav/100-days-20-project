@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        #father {
+            height: 650px;
+            width: 400px;
+            margin: auto;
+        }
+
+        #minmax {
+            display: flex;
+            height: 100px;
+            width: 500px;
+        }
+
+        #min {
+            height: 120px;
+            width: 200px;
+            margin-left: 50px;
+        }
+
+        #max {
+            height: 120px;
+            width: 200px;
+            /* margin-left: 10px; */
+        }
+
+        #mini {
+            border: 1px solid black;
+            text-align: center;
+            height: 50px;
+            width: 100px;
+            background-color: red;
+            font-size: xx-large;
+
+        }
+
+        #maxi {
+            border: 1px solid black;
+            text-align: center;
+            height: 50px;
+            width: 100px;
+            background-color: green;
+            font-size: xx-large;
+        }
+
+        #score {
+            display: flex;
+            border: 1px solid black;
+            margin: auto;
+            height: 60px;
+            width: 230px;
+            margin-top: -20px;
+            margin-bottom: 20px;
+            background-color: rgb(194, 193, 193);
+            font-size: 35px;
+            font-weight: bold;
+            padding-top: 20px;
+
+        }
+
+        #calculator {
+            display: grid;
+            grid-template-rows: (3, 65px);
+            grid-template-columns: 65px 65px 65px;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        #calculator>div {
+            border: 1px solid black;
+            /* margin-left: 70px; */
+        }
+
+        #calculator>div:nth-child(10) {
+            border: 1px white solid;
+        }
+
+        #enter {
+            color: white;
+            margin-left: 19%;
+            background-color: black;
+            height: 70px;
+            width: 240px;
+            font-size: xx-large;
+            margin-top: 20px;
+        }
+
+        /* h1{
+            margin-top: -2px;
+        } */
+        .full,
+        .half {
+            margin-top: -3px;
+            margin-left: 10px;
+            ;
+        }
+
+        #sbar {
+            margin-top: -2px;
+            text-align: center;
+        }
+
+        p {
+            font-size: xx-large;
+            margin-top: -1px;
+            margin-top: 5px;
+        }
+
+        .green {
+            font-size: xx-large;
+            background-color: green;
+            padding-left: 23px;
+            padding-top: 15px;
+        }
+
+        .orange {
+            font-size: xx-large;
+            background-color: orange;
+            padding-left: 23px;
+            padding-top: 15px;
+
+        }
+
+        .violet {
+            font-size: xx-large;
+            background-color: rgb(65, 8, 65);
+            padding-left: 23px;
+            padding-top: 15px;
+            color: white;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- parent div -->
+    <div id="father" style="border:2px solid black">
+        <!-- 1st child -->
+        <div id="minmax">
+            <!-- min child -->
+            <div id="min">
+                <div id="mini">
+                    <p>99</p>
+                </div>
+                <h1 class="full">MIN</h1>
+            </div>
+            <!-- max child -->
+            <div id="max">
+                <div id="maxi">
+                    <p>2022 </p>
+                </div>
+                <h1 class="half">MAX</h1>
+
+            </div>
+
+        </div>
+        <h1 id="sbar">SCORE</h1>
+        <div id="score">
+            <!-- <h1 class="num"> </h1> -->
+        </div>
+        <div id="calculator">
+            <div id="box-1" class="green" onclick="bclick(1);">1</div>
+            <div id="box-2" class="orange" onclick="bclick(2);">2</div>
+            <div id="box-3" class="green" onclick="bclick(3);">3</div>
+            <div id="box-4" class="orange" onclick="bclick(4);">4</div>
+            <div id="box-5" class="orange" onclick="bclick(5);">5</div>
+            <div id="box-6" class="orange" onclick="bclick(6);">6</div>
+            <div id="box-7" class="green" onclick="bclick(7);">7</div>
+            <div id="box-8" class="orange" onclick="bclick(8);">8</div>
+            <div id="box-9" class="green" onclick="bclick(9);">9</div>
+            <div></div>
+            <div id="box-0" class="violet" onclick="bclick(0);">0</div>
+
+        </div>
+        <div>
+            <button id="enter" onclick="setScore()">ENTER</button>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    var bag = "";
+    var max = 2022;
+    var min = 99;
+    function bclick(minimax) {
+        bag = bag + minimax;
+        console.log(bag)
+        document.querySelector("#score").innerText = bag;
+    }
+
+    function setScore() {
+        if (Number(bag) > max) {
+            max = bag;
+            document.querySelector("#maxi").innerText = max;
+        }
+
+        if (Number(bag) < min) {
+            min = bag;
+            document.querySelector("#mini").innerText = min;
+        }
+
+        bag = "";
+        document.querySelector("#score").innerText = "#";
+    }
+
+</script>
