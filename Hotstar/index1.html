@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container1{
+    /* border: 1px solid red; */
+    height: 80px;
+    display: flex;
+   justify-content: right;
+    gap: 20px;
+    background-color: #0c111b;
+    
+}
+.para{
+    margin-right: 25px;
+    margin-top: 30px;
+    color: white;
+}
+
+        input{
+            width: 250px;
+            margin-top: 1.5%;
+            height: 40px;
+            font-weight: bold;
+            background: #0c111b;
+            color: white;
+            /* border: 1px solid red; */
+        }
+        #container{
+            
+            height: 310px;
+            width: 206px;
+            
+            margin-left: 62%;
+            border-top:none ;
+            overflow: hidden ;
+            
+        } 
+        #parent{
+            /* margin: auto; */
+           margin-top: -24%;
+            /* box-shadow: 0px 2px 4px 2px grey; */
+            width: 40%;
+            text-align: center;
+            overflow: hidden;
+        }
+        #photo{
+            height: 420px;
+        }
+        #picDiv img{
+            height: 60px;
+            width: 60px;
+            margin-right: 0%;
+            border-radius: 25px;
+            /* border: 1px solid red; */
+        }
+        #restDiv {
+            height: 60px;
+            width: auto;
+            /* border: 1px solid red; */
+            /* margin: auto; */
+            
+        }
+        #restDiv p{
+            font-size: 12px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            text-align: left;
+            margin-top: 2%;
+            font-weight: bold;
+            color: red;
+            
+        }
+        #divForAll{
+            /* border: 1px solid rgb(148, 144, 144); */
+            display: flex;
+            gap: 5%;
+            
+        }
+        #logo{
+            width: 80px;
+            height: 80px;
+                
+            margin-right: 40%;
+        }
+        #trend{
+            color: white;
+            margin-top: 2.2%;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container1">
+        <img id="logo" src="https://secure-media.hotstarext.com/web-assets/prod/images/brand-logos/disney-hotstar-logo-dark.svg" alt="">
+        <p id="trend">Trending</p>
+        <input oninput="debounce(main,2000)" type="text" name="" id="inmovie" placeholder="Search">
+        
+        <p onclick="home()" class="para">Home</p>
+        <p onclick="login()" class="para">Login</p>
+        <p ondblclick="signup()" class="para">Signup</p>
+      
+  </div> 
+  <div id="container"></div>
+        
+    
+
+    <div id="parent"></div>
+</body>
+</html>
+
+<script>        
+// https://api.themoviedb.org/3/movie/550?api_key=ecc9fcdc2ea17e5c996f91fb3d80acd3&s=${input}
+// https://api.themoviedb.org/3/authentication/token/new?api_key=movie
+//<!-- /discover/movie?sort_by=popularity.desc -->
+
+let timerid;
+let  container= document.getElementById("container")
+async function choosemovie(){
+
+        try{
+            let input= document.getElementById("inmovie").value
+       // let res = await fetch(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=ecc9fcdc2ea17e5c996f91fb3d80acd3&s=${input}`)
+    let res = await fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=b11098b0&s=${input}`)
+
+       let data = await res.json()
+       console.log(data)
+
+       appendData(data.Search)
+        }
+       catch(error){
+           console.log("data:",error)
+       }
+    }
+    function appendData(data){
+        console.log(data)
+
+        container.innerHTML=null
+
+        data.forEach(function(ele){
+
+            // if(data===undefined){
+            //     return false
+            // }
+            let divForAll =document.createElement("div")
+            divForAll.setAttribute("id","divForAll")
+
+            let miniDivForImg = document.createElement("div")
+            miniDivForImg.setAttribute("id","picDiv")
+
+            let pic = document.createElement("img")
+            pic.setAttribute("src",ele.Poster)
+            let a= document.createElement("p")
+            a.innerText =  ele.Title
+            
+            miniDivForImg.append(pic)
+
+            miniDivForRest = document.createElement("div")
+            miniDivForRest.setAttribute("id","restDiv")
+
+            
+            let type= document.createElement("p")
+            type.innerText = "Type :"+" "+ ele.Type
+            
+            
+            miniDivForRest.append(a,type)
+            divForAll.append(miniDivForImg,miniDivForRest)
+            divForAll.addEventListener("click",function(){
+                search(ele)
+            })
+            let hr= document.createElement("hr")
+           container.append(divForAll,hr)
+
+        });
+    }
+    function search(ele){
+        let serArr= [];
+        serArr.push(ele)
+        console.log(serArr) 
+
+        display(serArr)
+    }
+
+    function display(serArr){
+
+        document.querySelector("#parent").innerHTML= null
+
+        serArr.map(function(ele){
+
+    let div =document.createElement("div")
+
+    let a= document.createElement("h4")
+    a.innerText ="Movie Name:"+" "+ele.Title
+
+    let   img= document.createElement("img")
+    img.setAttribute("src",ele.Poster)
+    img.setAttribute("id","photo")
+
+    release= document.createElement("h4")
+    release.innerText="Date of Release:"+" "+ele.Year
+
+   rating = document.createElement("h4")
+   rating.innerText ="Rating:"+" "+ele.imdbID
+
+   div.append(img,a,release,rating)
+
+   document.querySelector("#parent").append(div)
+}) 
+    }
+
+    async function main(){
+
+        try{
+            let data= await choosemovie()
+            if(data===undefined){
+                return false
+            }
+            appendData(data)
+        }
+        catch(error){
+            console.log("error:",error)
+        }
+    }
+        function debounce(func,delay){
+
+            if(timerid){
+                clearTimeout(timerid)
+            }
+
+            timerid= setTimeout(function(){
+                func()
+            },delay)
+        }
+   
+   
+</script>

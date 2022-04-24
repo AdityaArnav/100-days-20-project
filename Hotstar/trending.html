@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #ftrend{
+             display: grid;
+             grid-template-columns: repeat(4,1fr);
+            gap: 20px;
+          
+        }
+        #container{
+            border: 1px solid blue;
+            width: 80%;
+            margin: auto;
+            margin-top: 60px;
+            text-align: center;
+        }
+        #trend{
+            border: 1px solid#0d264d;
+            height: 50px;
+            background-color:#0d264d;
+            
+        }
+        #ptrend{
+            color: white;
+            margin-top: 10px;
+            text-align: center; 
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+
+        #ftrend > div {
+          margin-top: 20px;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="trend"><p id="ptrend">Trending</p></div>
+    <div id="ftrend"></div>
+
+</body>
+</html>
+
+<script>
+
+async function getmovie(){
+    try{
+
+let res = await fetch(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=ecc9fcdc2ea17e5c996f91fb3d80acd3&`)
+
+let data = await res.json()
+console.log(data)
+
+appendData(data.results)
+}
+catch(error){
+   console.log("data:",error)
+}
+}
+getmovie()
+
+let ftrend = document.querySelector("#ftrend")
+function appendData(data){
+
+    data.map(function(el){
+    let div= document.createElement("div");
+    div.setAttribute("id","container")
+
+    let img = document.createElement("img")
+    img.src = el.poster_path;
+
+    let title = document.createElement("p")
+    title.innerText = el.title
+
+    let release  =  document.createElement("p")
+    release.innerText= el.release_date
+
+    let rate = document.createElement("p")
+    rate.innerText= el.vote_average
+
+        div.append(img, title, release, rate)
+
+        ftrend.append(div)
+    })
+}
+
+
+</script>
